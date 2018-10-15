@@ -1,0 +1,2520 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Copy the Census Japan feature to the project folder, and Delete unnecessary fields of Census All data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['OBJECTID', 'Shape', 'KEY_CODE', 'KEN', 'CITY', 'KIHON1', 'KIHON2', 'SIKINUM', 'HTKSYU', 'SYUROKU', 'HITOKU_CODE', 'GASS_1', 'GASS_2', 'GASS_3', 'GASS_4', 'GASS_5', 'GASS_6', 'GASS_7', 'GASS_8', 'KEN_NAME', 'SHICHO_NAME', 'SHI_NAME', 'KU_NAME', 'GUN_NAME', 'CHOSON_NAME', 'OAZA_NAME', 'KOAZA_NAME', 'SUM_AREA', 'TOTPOP_H27', 'TOTMALE_H27', 'TOTFEMALE_H27', 'TOTHH_H27', 'TOTPOP_INC_H27', 'POP_0_4_H27', 'POP_5_9_H27', 'POP_10_14_H27', 'POP_15_19_H27', 'POP_20_24_H27', 'POP_25_29_H27', 'POP_30_34_H27', 'POP_35_39_H27', 'POP_40_44_H27', 'POP_45_49_H27', 'POP_50_54_H27', 'POP_55_59_H27', 'POP_60_64_H27', 'POP_65_69_H27', 'POP_70_74_H27', 'POP_75_79_H27', 'POP_80_84_H27', 'POP_85_89_H27', 'POP_90_94_H27', 'POP_95_99_H27', 'POP_100UP_H27', 'POP_UNKWN_H27', 'TOTAGE_H27', 'POP_AVEAGE_H27', 'POP_0_14_H27', 'POP_15_64_H27', 'POP_65UP_H27', 'POP_75UP_H27', 'POP_85UP_H27', 'TOTMALE_INC_H27', 'POP_MALE_0_4_H27', 'POP_MALE_5_9_H27', 'POP_MALE_10_14_H27', 'POP_MALE_15_19_H27', 'POP_MALE_20_24_H27', 'POP_MALE_25_29_H27', 'POP_MALE_30_34_H27', 'POP_MALE_35_39_H27', 'POP_MALE_40_44_H27', 'POP_MALE_45_49_H27', 'POP_MALE_50_54_H27', 'POP_MALE_55_59_H27', 'POP_MALE_60_64_H27', 'POP_MALE_65_69_H27', 'POP_MALE_70_74_H27', 'POP_MALE_75_79_H27', 'POP_MALE_80_84_H27', 'POP_MALE_85_89_H27', 'POP_MALE_90_94_H27', 'POP_MALE_95_99_H27', 'POP_MALE_100UP_H27', 'POP_MALE_UNKWN_H27', 'TOTMALEAGE_H27', 'POP_MALE_AVEAGE_H27', 'POP_MALE_0_14_H27', 'POP_MALE_15_64_H27', 'POP_MALE_65UP_H27', 'POP_MALE_75UP_H27', 'POP_MALE_85UP_H27', 'TOTFEMALE_INC_H27', 'POP_FEMALE_0_4_H27', 'POP_FEMALE_5_9_H27', 'POP_FEMALE_10_14_H27', 'POP_FEMALE_15_19_H27', 'POP_FEMALE_20_24_H27', 'POP_FEMALE_25_29_H27', 'POP_FEMALE_30_34_H27', 'POP_FEMALE_35_39_H27', 'POP_FEMALE_40_44_H27', 'POP_FEMALE_45_49_H27', 'POP_FEMALE_50_54_H27', 'POP_FEMALE_55_59_H27', 'POP_FEMALE_60_64_H27', 'POP_FEMALE_65_69_H27', 'POP_FEMALE_70_74_H27', 'POP_FEMALE_75_79_H27', 'POP_FEMALE_80_84_H27', 'POP_FEMALE_85_89_H27', 'POP_FEMALE_90_94_H27', 'POP_FEMALE_95_99_H27', 'POP_FEMALE_100UP_H27', 'POP_FEMALE_UNKWN_H27', 'TOTFEMALEAGE_H27', 'POP_FEMALE_AVEAGE_H27', 'POP_FEMALE_0_14_H27', 'POP_FEMALE_15_64_H27', 'POP_FEMALE_65UP_H27', 'POP_FEMALE_75UP_H27', 'POP_FEMALE_85UP_H27', 'HH_H27', 'HHNUM_H27', 'GENHH_ALLPER_H27', 'GENHH_1PER_H27', 'GENHH_2PER_H27', 'GENHH_3PER_H27', 'GENHH_4PER_H27', 'GENHH_5PER_H27', 'GENHH_6PER_H27', 'GENHH_7UP_H27', 'GENHH_5UP_H27', 'GENHHNUM_H27', 'GENHHNUM_PGENHH_H27', 'INSHH_H27', 'INSHHNUM_H27', 'GENHHFA_H27', 'GENHHFA_FAM_H27', 'GENHHFA_NUC_H27', 'GENHHFA_MARC_H27', 'GENHHFA_MARCCH_H27', 'GENHHFA_OTHNUC_H27', 'GENHHFA_UNFAM_H27', 'GENHHFA_SOL_H27', 'GENHHFA_UNKWN_H27', 'GENHHFA_THR_H27', 'GENHHFA_WTU6_H27', 'GENHHFA_WTU18_H27', 'GENHHFA_WT65UP_H27', 'GENHHFA_WT65UP_MARC_H27', 'GENHHFA_WT65UP_SOL_H27', 'GENHHFA_WT65UPONL_H27', 'GENHHFA_WT65UPONL_MARC_H27', 'GENHHFA_WT65UPONL_SOL_H27', 'GENHHHO_LH_H27', 'GENHHHO_OWN_H27', 'GENHHHO_PUBRENT_H27', 'GENHHHO_RNTPRV_H27', 'GENHHHO_ISS_H27', 'GENHHHO_LOD_H27', 'TOTMHH_H27', 'MHH_DTCHD_H27', 'MHH_ATCHD_H27', 'MHH_APT_H27', 'MHH_LEV1_2_H27', 'MHH_LEV3_5_H27', 'MHH_LEV6_10_H27', 'MHH_LEV11UP_H27', 'MHH_OTH_H27', 'POS_H27', 'POS_EMP_H27', 'POS_SLF_H27', 'POS_FMWK_H27', 'POS_UNKWN_H27', 'POS_MALE_H27', 'POS_FEMALE_H27', 'IND_H27', 'IND_AGRFOR_H27', 'IND_AGR_H27', 'IND_FOR_H27', 'IND_FIS_H27', 'IND_MIN_H27', 'IND_BUI_H27', 'IND_MAN_H27', 'IND_INF_H27', 'IND_TEL_H27', 'IND_TRA_H27', 'IND_WHO_H27', 'IND_FIN_H27', 'IND_REA_H27', 'IND_TEC_H27', 'IND_LODEAT_H27', 'IND_LIF_H27', 'IND_EDU_H27', 'IND_MED_H27', 'IND_COM_H27', 'IND_OTHSER_H27', 'IND_PUB_H27', 'IND_OTH_H27', 'IND_FIR_H27', 'IND_SEC_H27', 'IND_THR_H27', 'IND_MALE_H27', 'IND_FEMALE_H27', 'JOB_H27', 'JOB_ADM_H27', 'JOB_PRO_H27', 'JOB_AFF_H27', 'JOB_SAL_H27', 'JOB_SER_H27', 'JOB_PRE_H27', 'JOB_AFS_H27', 'JOB_IND_H27', 'JOB_PROD_H27', 'JOB_BUI_H27', 'JOB_CAR_H27', 'JOB_UNKWN_H27', 'JOB_MALE_H27', 'JOB_FEMALE_H27', 'DUR_H27', 'DUR_BOR_H27', 'DUR_WITHIN1_H27', 'DUR_1_5_H27', 'DUR_5_10_H27', 'DUR_10_20_H27', 'DUR_OVER20_H27', 'DUR_UNKWN_H27', 'Shape_Length', 'Shape_Area']\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    env.workspace = \"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/HealthPlaceNew.gdb\"\n",
+    "    ### First, delete all unnecesarry fields and create a census polygon data\n",
+    "    # list all field name\n",
+    "    field_names = [f.name for f in arcpy.ListFields(\"Census2015PopJP\")]\n",
+    "    print(field_names)\n",
+    "    # Choose the fields want to be deleted\n",
+    "    delfield = ['KEY_CODE', 'KEN', 'CITY', 'KIHON1', 'KIHON2', 'SIKINUM', 'HTKSYU', 'SYUROKU', 'HITOKU_CODE', 'GASS_1', 'GASS_2', 'GASS_3', 'GASS_4', 'GASS_5', 'GASS_6', 'GASS_7', 'GASS_8', 'TOTMALE_H27', 'TOTFEMALE_H27', 'TOTHH_H27', 'TOTPOP_INC_H27', 'POP_0_4_H27', 'POP_5_9_H27', 'POP_10_14_H27', 'POP_15_19_H27', 'POP_20_24_H27', 'POP_25_29_H27', 'POP_30_34_H27', 'POP_35_39_H27', 'POP_40_44_H27', 'POP_45_49_H27', 'POP_50_54_H27', 'POP_55_59_H27', 'POP_60_64_H27', 'POP_65_69_H27', 'POP_70_74_H27', 'POP_75_79_H27', 'POP_80_84_H27', 'POP_85_89_H27', 'POP_90_94_H27', 'POP_95_99_H27', 'POP_100UP_H27', 'POP_UNKWN_H27', 'TOTAGE_H27', 'POP_AVEAGE_H27', 'POP_0_14_H27', 'POP_15_64_H27', 'POP_65UP_H27', 'POP_75UP_H27', 'POP_85UP_H27', 'TOTMALE_INC_H27', 'POP_MALE_0_4_H27', 'POP_MALE_5_9_H27', 'POP_MALE_10_14_H27', 'POP_MALE_15_19_H27', 'POP_MALE_20_24_H27', 'POP_MALE_25_29_H27', 'POP_MALE_30_34_H27', 'POP_MALE_35_39_H27', 'POP_MALE_40_44_H27', 'POP_MALE_45_49_H27', 'POP_MALE_50_54_H27', 'POP_MALE_55_59_H27', 'POP_MALE_60_64_H27', 'POP_MALE_65_69_H27', 'POP_MALE_70_74_H27', 'POP_MALE_75_79_H27', 'POP_MALE_80_84_H27', 'POP_MALE_85_89_H27', 'POP_MALE_90_94_H27', 'POP_MALE_95_99_H27', 'POP_MALE_100UP_H27', 'POP_MALE_UNKWN_H27', 'TOTMALEAGE_H27', 'POP_MALE_AVEAGE_H27', 'POP_MALE_0_14_H27', 'POP_MALE_15_64_H27', 'POP_MALE_65UP_H27', 'POP_MALE_75UP_H27', 'POP_MALE_85UP_H27', 'TOTFEMALE_INC_H27', 'POP_FEMALE_0_4_H27', 'POP_FEMALE_5_9_H27', 'POP_FEMALE_10_14_H27', 'POP_FEMALE_15_19_H27', 'POP_FEMALE_20_24_H27', 'POP_FEMALE_25_29_H27', 'POP_FEMALE_30_34_H27', 'POP_FEMALE_35_39_H27', 'POP_FEMALE_40_44_H27', 'POP_FEMALE_45_49_H27', 'POP_FEMALE_50_54_H27', 'POP_FEMALE_55_59_H27', 'POP_FEMALE_60_64_H27', 'POP_FEMALE_65_69_H27', 'POP_FEMALE_70_74_H27', 'POP_FEMALE_75_79_H27', 'POP_FEMALE_80_84_H27', 'POP_FEMALE_85_89_H27', 'POP_FEMALE_90_94_H27', 'POP_FEMALE_95_99_H27', 'POP_FEMALE_100UP_H27', 'POP_FEMALE_UNKWN_H27', 'TOTFEMALEAGE_H27', 'POP_FEMALE_AVEAGE_H27', 'POP_FEMALE_0_14_H27', 'POP_FEMALE_15_64_H27', 'POP_FEMALE_65UP_H27', 'POP_FEMALE_75UP_H27', 'POP_FEMALE_85UP_H27', 'HH_H27', 'HHNUM_H27', 'GENHH_ALLPER_H27', 'GENHH_1PER_H27', 'GENHH_2PER_H27', 'GENHH_3PER_H27', 'GENHH_4PER_H27', 'GENHH_5PER_H27', 'GENHH_6PER_H27', 'GENHH_7UP_H27', 'GENHH_5UP_H27', 'GENHHNUM_H27', 'GENHHNUM_PGENHH_H27', 'INSHH_H27', 'INSHHNUM_H27', 'GENHHFA_H27', 'GENHHFA_FAM_H27', 'GENHHFA_NUC_H27', 'GENHHFA_MARC_H27', 'GENHHFA_MARCCH_H27', 'GENHHFA_OTHNUC_H27', 'GENHHFA_UNFAM_H27', 'GENHHFA_SOL_H27', 'GENHHFA_UNKWN_H27', 'GENHHFA_THR_H27', 'GENHHFA_WTU6_H27', 'GENHHFA_WTU18_H27', 'GENHHFA_WT65UP_H27', 'GENHHFA_WT65UP_MARC_H27', 'GENHHFA_WT65UP_SOL_H27', 'GENHHFA_WT65UPONL_H27', 'GENHHFA_WT65UPONL_MARC_H27', 'GENHHFA_WT65UPONL_SOL_H27', 'GENHHHO_LH_H27', 'GENHHHO_OWN_H27', 'GENHHHO_PUBRENT_H27', 'GENHHHO_RNTPRV_H27', 'GENHHHO_ISS_H27', 'GENHHHO_LOD_H27', 'TOTMHH_H27', 'MHH_DTCHD_H27', 'MHH_ATCHD_H27', 'MHH_APT_H27', 'MHH_LEV1_2_H27', 'MHH_LEV3_5_H27', 'MHH_LEV6_10_H27', 'MHH_LEV11UP_H27', 'MHH_OTH_H27', 'POS_H27', 'POS_EMP_H27', 'POS_SLF_H27', 'POS_FMWK_H27', 'POS_UNKWN_H27', 'POS_MALE_H27', 'POS_FEMALE_H27', 'IND_H27', 'IND_AGRFOR_H27', 'IND_AGR_H27', 'IND_FOR_H27', 'IND_FIS_H27', 'IND_MIN_H27', 'IND_BUI_H27', 'IND_MAN_H27', 'IND_INF_H27', 'IND_TEL_H27', 'IND_TRA_H27', 'IND_WHO_H27', 'IND_FIN_H27', 'IND_REA_H27', 'IND_TEC_H27', 'IND_LODEAT_H27', 'IND_LIF_H27', 'IND_EDU_H27', 'IND_MED_H27', 'IND_COM_H27', 'IND_OTHSER_H27', 'IND_PUB_H27', 'IND_OTH_H27', 'IND_FIR_H27', 'IND_SEC_H27', 'IND_THR_H27', 'IND_MALE_H27', 'IND_FEMALE_H27', 'JOB_H27', 'JOB_ADM_H27', 'JOB_PRO_H27', 'JOB_AFF_H27', 'JOB_SAL_H27', 'JOB_SER_H27', 'JOB_PRE_H27', 'JOB_AFS_H27', 'JOB_IND_H27', 'JOB_PROD_H27', 'JOB_BUI_H27', 'JOB_CAR_H27', 'JOB_UNKWN_H27', 'JOB_MALE_H27', 'JOB_FEMALE_H27', 'DUR_H27', 'DUR_BOR_H27', 'DUR_WITHIN1_H27', 'DUR_1_5_H27', 'DUR_5_10_H27', 'DUR_10_20_H27', 'DUR_OVER20_H27', 'DUR_UNKWN_H27']\n",
+    "    # Delete fields\n",
+    "    arcpy.DeleteField_management('Census2015PopJP',delfield)\n",
+    "\n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Create a Census polygon data and Census centroid point data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    env.workspace = \"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/HealthPlaceNew.gdb\"\n",
+    "    \n",
+    "    ### Make a centroid point feature of census data\n",
+    "    arcpy.Clip_analysis('Census2015PopJP', 'LandNoLakeForest',\"Census2015ResAreaJP\")\n",
+    "    # Create centroid point feature\n",
+    "    arcpy.FeatureToPoint_management(\"Census2015ResAreaJP\", \"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/HealthPlaceNew.gdb/Census2015Res_CentroidJP\", \"CENTROID\")\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "# Spatial join with Population data"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### PHC"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "### Import system modules\n",
+    "import arcpy\n",
+    "import os\n",
+    "\n",
+    "try:\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inWorkspace1 = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/NetworkServiceRural.gdb\"\n",
+    "    inWorkspace2 = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/HealthPlaceNew.gdb\"\n",
+    "    outWorkspace = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/E2FCAStep1Rural.gdb\"\n",
+    "    \n",
+    "    # Want to join PHCCover polygon to KIHON_Chugoku2010 and calculate\n",
+    "    # the total number of population that service area (10, 20, 30, 60 min) can cover\n",
+    "    targetFeatures = os.path.join(inWorkspace1, \"SAPolygons1\")\n",
+    "    joinFeatures = os.path.join(inWorkspace2, \"Census2015Res_CentroidJP\")\n",
+    "    \n",
+    "    # Output will be the target features: PHCCover Polygon with a sum of population field \n",
+    "    outfc = os.path.join(outWorkspace, \"PHCCoverPopCent\")\n",
+    "    \n",
+    "    # Create a new fieldmappings and add the two input feature classes.\n",
+    "    fieldmappings = arcpy.FieldMappings()\n",
+    "    fieldmappings.addTable(targetFeatures)\n",
+    "    fieldmappings.addTable(joinFeatures)\n",
+    "    \n",
+    "    # First get the POP_H22 fieldmap. POP_H22 is a field in the KIHON_Chugoku2010 feature class.\n",
+    "    # The output will have the PHCCover Polygon with the attributes of the KIHON_Chugoku2010. Setting the\n",
+    "    # field's merge rule to SUM will aggregate the values for all of the KIHON_Chugoku2010 for\n",
+    "    # each break time into an SUM value. The field is also renamed to be more appropriate\n",
+    "    # for the output.\n",
+    "    POP2010FieldIndex = fieldmappings.findFieldMapIndex(\"TOTPOP_H27\")\n",
+    "    fieldmap = fieldmappings.getFieldMap(POP2010FieldIndex)\n",
+    "    \n",
+    "    # Get the output field's properties as a field object\n",
+    "    field = fieldmap.outputField\n",
+    "    \n",
+    "    # Rename the field and pass the updated field object back into the field map\n",
+    "    field.name = \"SUM_POP\"\n",
+    "    field.aliasName = \"SUM_POP\"\n",
+    "    fieldmap.outputField = field\n",
+    "    \n",
+    "    # Set the merge rule to sum and then replace the old fieldmap in the mappings object\n",
+    "    # with the updated one\n",
+    "    fieldmap.mergeRule = \"sum\"\n",
+    "    fieldmappings.replaceFieldMap(POP2010FieldIndex, fieldmap)\n",
+    "    \n",
+    "    # Delete fields that are no longer needed, such as city YEAR and PREF\n",
+    "    # as only the first value will be used by default\n",
+    "    x = fieldmappings.findFieldMapIndex(\"KEN_NAME\")\n",
+    "    fieldmappings.removeFieldMap(x)\n",
+    "    y = fieldmappings.findFieldMapIndex(\"SHICHO_NAME\")\n",
+    "    fieldmappings.removeFieldMap(y)\n",
+    "    z = fieldmappings.findFieldMapIndex(\"SHI_NAME\")\n",
+    "    fieldmappings.removeFieldMap(z)\n",
+    "    a = fieldmappings.findFieldMapIndex(\"KU_NAME\")\n",
+    "    fieldmappings.removeFieldMap(a)\n",
+    "    b = fieldmappings.findFieldMapIndex(\"GUN_NAME\")\n",
+    "    fieldmappings.removeFieldMap(b)\n",
+    "    c = fieldmappings.findFieldMapIndex(\"CHOSON_NAME\")\n",
+    "    fieldmappings.removeFieldMap(c)\n",
+    "    d = fieldmappings.findFieldMapIndex(\"OAZA_NAME\")\n",
+    "    fieldmappings.removeFieldMap(d)\n",
+    "    e = fieldmappings.findFieldMapIndex(\"KOAZA_NAME\")\n",
+    "    fieldmappings.removeFieldMap(e)\n",
+    "    f = fieldmappings.findFieldMapIndex(\"SUM_AREA\")\n",
+    "    fieldmappings.removeFieldMap(f)\n",
+    "    g = fieldmappings.findFieldMapIndex(\"ORIG_FID\")\n",
+    "    fieldmappings.removeFieldMap(g)\n",
+    "    l = fieldmappings.findFieldMapIndex(\"Name\")\n",
+    "    fieldmappings.removeFieldMap(l)\n",
+    "    \n",
+    "    \n",
+    "    #Run the Spatial Join tool, using the defaults for the join operation and join type\n",
+    "    arcpy.SpatialJoin_analysis(targetFeatures, joinFeatures, outfc, \"JOIN_ONE_TO_ONE\", \"KEEP_ALL\", fieldmappings,\"COMPLETELY_CONTAINS\")\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))\n",
+    "    "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "### Import system modules\n",
+    "import arcpy\n",
+    "import os\n",
+    "\n",
+    "try:\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inWorkspace1 = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/NetworkServiceRural.gdb\"\n",
+    "    inWorkspace2 = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/HealthPlaceNew.gdb\"\n",
+    "    outWorkspace = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/E2FCAStep1Rural.gdb\"\n",
+    "    \n",
+    "    # Want to join PHCCover polygon to KIHON_Chugoku2010 and calculate\n",
+    "    # the total number of population that service area (10, 20, 30, 60 min) can cover\n",
+    "    targetFeatures = os.path.join(inWorkspace1, \"SAPolygons2\")\n",
+    "    joinFeatures = os.path.join(inWorkspace2, \"Census2015Res_CentroidJP\")\n",
+    "    \n",
+    "    # Output will be the target features: PHCCover Polygon with a sum of population field \n",
+    "    outfc = os.path.join(outWorkspace, \"Hos2CoverPopCent\")\n",
+    "    \n",
+    "    # Create a new fieldmappings and add the two input feature classes.\n",
+    "    fieldmappings = arcpy.FieldMappings()\n",
+    "    fieldmappings.addTable(targetFeatures)\n",
+    "    fieldmappings.addTable(joinFeatures)\n",
+    "    \n",
+    "    # First get the POP_H22 fieldmap. POP_H22 is a field in the KIHON_Chugoku2010 feature class.\n",
+    "    # The output will have the PHCCover Polygon with the attributes of the KIHON_Chugoku2010. Setting the\n",
+    "    # field's merge rule to SUM will aggregate the values for all of the KIHON_Chugoku2010 for\n",
+    "    # each break time into an SUM value. The field is also renamed to be more appropriate\n",
+    "    # for the output.\n",
+    "    POP2010FieldIndex = fieldmappings.findFieldMapIndex(\"TOTPOP_H27\")\n",
+    "    fieldmap = fieldmappings.getFieldMap(POP2010FieldIndex)\n",
+    "    \n",
+    "    # Get the output field's properties as a field object\n",
+    "    field = fieldmap.outputField\n",
+    "    \n",
+    "    # Rename the field and pass the updated field object back into the field map\n",
+    "    field.name = \"SUM_POP\"\n",
+    "    field.aliasName = \"SUM_POP\"\n",
+    "    fieldmap.outputField = field\n",
+    "    \n",
+    "    # Set the merge rule to sum and then replace the old fieldmap in the mappings object\n",
+    "    # with the updated one\n",
+    "    fieldmap.mergeRule = \"sum\"\n",
+    "    fieldmappings.replaceFieldMap(POP2010FieldIndex, fieldmap)\n",
+    "    \n",
+    "    # Delete fields that are no longer needed, such as city YEAR and PREF\n",
+    "    # as only the first value will be used by default\n",
+    "    x = fieldmappings.findFieldMapIndex(\"KEN_NAME\")\n",
+    "    fieldmappings.removeFieldMap(x)\n",
+    "    y = fieldmappings.findFieldMapIndex(\"SHICHO_NAME\")\n",
+    "    fieldmappings.removeFieldMap(y)\n",
+    "    z = fieldmappings.findFieldMapIndex(\"SHI_NAME\")\n",
+    "    fieldmappings.removeFieldMap(z)\n",
+    "    a = fieldmappings.findFieldMapIndex(\"KU_NAME\")\n",
+    "    fieldmappings.removeFieldMap(a)\n",
+    "    b = fieldmappings.findFieldMapIndex(\"GUN_NAME\")\n",
+    "    fieldmappings.removeFieldMap(b)\n",
+    "    c = fieldmappings.findFieldMapIndex(\"CHOSON_NAME\")\n",
+    "    fieldmappings.removeFieldMap(c)\n",
+    "    d = fieldmappings.findFieldMapIndex(\"OAZA_NAME\")\n",
+    "    fieldmappings.removeFieldMap(d)\n",
+    "    e = fieldmappings.findFieldMapIndex(\"KOAZA_NAME\")\n",
+    "    fieldmappings.removeFieldMap(e)\n",
+    "    f = fieldmappings.findFieldMapIndex(\"SUM_AREA\")\n",
+    "    fieldmappings.removeFieldMap(f)\n",
+    "    g = fieldmappings.findFieldMapIndex(\"ORIG_FID\")\n",
+    "    fieldmappings.removeFieldMap(g)\n",
+    "    l = fieldmappings.findFieldMapIndex(\"Name\")\n",
+    "    fieldmappings.removeFieldMap(l)\n",
+    "    \n",
+    "    \n",
+    "    #Run the Spatial Join tool, using the defaults for the join operation and join type\n",
+    "    arcpy.SpatialJoin_analysis(targetFeatures, joinFeatures, outfc, \"JOIN_ONE_TO_ONE\", \"KEEP_ALL\", fieldmappings,\"COMPLETELY_CONTAINS\")\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))\n",
+    "    "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "### Import system modules\n",
+    "import arcpy\n",
+    "import os\n",
+    "\n",
+    "try:\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inWorkspace1 = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/NetworkServiceRural.gdb\"\n",
+    "    inWorkspace2 = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/HealthPlaceNew.gdb\"\n",
+    "    outWorkspace = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/E2FCAStep1Rural.gdb\"\n",
+    "    \n",
+    "    # Want to join PHCCover polygon to KIHON_Chugoku2010 and calculate\n",
+    "    # the total number of population that service area (10, 20, 30, 60 min) can cover\n",
+    "    targetFeatures = os.path.join(inWorkspace1, \"SAPolygons3\")\n",
+    "    joinFeatures = os.path.join(inWorkspace2, \"Census2015Res_CentroidJP\")\n",
+    "    \n",
+    "    # Output will be the target features: PHCCover Polygon with a sum of population field \n",
+    "    outfc = os.path.join(outWorkspace, \"Hos3CoverPopCent\")\n",
+    "    \n",
+    "    # Create a new fieldmappings and add the two input feature classes.\n",
+    "    fieldmappings = arcpy.FieldMappings()\n",
+    "    fieldmappings.addTable(targetFeatures)\n",
+    "    fieldmappings.addTable(joinFeatures)\n",
+    "    \n",
+    "    # First get the POP_H22 fieldmap. POP_H22 is a field in the KIHON_Chugoku2010 feature class.\n",
+    "    # The output will have the PHCCover Polygon with the attributes of the KIHON_Chugoku2010. Setting the\n",
+    "    # field's merge rule to SUM will aggregate the values for all of the KIHON_Chugoku2010 for\n",
+    "    # each break time into an SUM value. The field is also renamed to be more appropriate\n",
+    "    # for the output.\n",
+    "    POP2010FieldIndex = fieldmappings.findFieldMapIndex(\"TOTPOP_H27\")\n",
+    "    fieldmap = fieldmappings.getFieldMap(POP2010FieldIndex)\n",
+    "    \n",
+    "    # Get the output field's properties as a field object\n",
+    "    field = fieldmap.outputField\n",
+    "    \n",
+    "    # Rename the field and pass the updated field object back into the field map\n",
+    "    field.name = \"SUM_POP\"\n",
+    "    field.aliasName = \"SUM_POP\"\n",
+    "    fieldmap.outputField = field\n",
+    "    \n",
+    "    # Set the merge rule to sum and then replace the old fieldmap in the mappings object\n",
+    "    # with the updated one\n",
+    "    fieldmap.mergeRule = \"sum\"\n",
+    "    fieldmappings.replaceFieldMap(POP2010FieldIndex, fieldmap)\n",
+    "    \n",
+    "    # Delete fields that are no longer needed, such as city YEAR and PREF\n",
+    "    # as only the first value will be used by default\n",
+    "    x = fieldmappings.findFieldMapIndex(\"KEN_NAME\")\n",
+    "    fieldmappings.removeFieldMap(x)\n",
+    "    y = fieldmappings.findFieldMapIndex(\"SHICHO_NAME\")\n",
+    "    fieldmappings.removeFieldMap(y)\n",
+    "    z = fieldmappings.findFieldMapIndex(\"SHI_NAME\")\n",
+    "    fieldmappings.removeFieldMap(z)\n",
+    "    a = fieldmappings.findFieldMapIndex(\"KU_NAME\")\n",
+    "    fieldmappings.removeFieldMap(a)\n",
+    "    b = fieldmappings.findFieldMapIndex(\"GUN_NAME\")\n",
+    "    fieldmappings.removeFieldMap(b)\n",
+    "    c = fieldmappings.findFieldMapIndex(\"CHOSON_NAME\")\n",
+    "    fieldmappings.removeFieldMap(c)\n",
+    "    d = fieldmappings.findFieldMapIndex(\"OAZA_NAME\")\n",
+    "    fieldmappings.removeFieldMap(d)\n",
+    "    e = fieldmappings.findFieldMapIndex(\"KOAZA_NAME\")\n",
+    "    fieldmappings.removeFieldMap(e)\n",
+    "    f = fieldmappings.findFieldMapIndex(\"SUM_AREA\")\n",
+    "    fieldmappings.removeFieldMap(f)\n",
+    "    g = fieldmappings.findFieldMapIndex(\"ORIG_FID\")\n",
+    "    fieldmappings.removeFieldMap(g)\n",
+    "    l = fieldmappings.findFieldMapIndex(\"Name\")\n",
+    "    fieldmappings.removeFieldMap(l)\n",
+    "    \n",
+    "    \n",
+    "    #Run the Spatial Join tool, using the defaults for the join operation and join type\n",
+    "    arcpy.SpatialJoin_analysis(targetFeatures, joinFeatures, outfc, \"JOIN_ONE_TO_ONE\", \"KEEP_ALL\", fieldmappings,\"COMPLETELY_CONTAINS\")\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))\n",
+    "    "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "# Weighting the Step 1 population with slow and quick distance decay"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### PHC"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inTable = \"PHCCoverPopCent\"\n",
+    "    fieldName1 = \"PropToPopSlow\"\n",
+    "    fieldName2 = \"PropToPopQuick\"\n",
+    "    expression1 = \"w(!ToBreak!,!SUM_POP!)\"\n",
+    "    codeblock1 = \"\"\"def w (f1,f2):\n",
+    "        if f1 <= 10:\n",
+    "            return f2 * 1\n",
+    "        elif f1 > 10 and f1 <= 20:\n",
+    "            return f2 * 0.80\n",
+    "        elif f1 > 20 and f1 <=30:\n",
+    "            return f2 * 0.55\n",
+    "        elif f1 > 30 and f1 <=60:\n",
+    "            return f2 * 0.15\"\"\"\n",
+    "    codeblock2 = \"\"\"def w(f1,f2):\n",
+    "        if f1 <= 10:\n",
+    "            return f2 * 1\n",
+    "        elif f1 > 10 and f1 <= 20:\n",
+    "            return f2 * 0.60\n",
+    "        elif f1 > 20 and f1 <=30:\n",
+    "            return f2 * 0.25\n",
+    "        elif f1 > 30 and f1 <=60:\n",
+    "            return f2 * 0.05\"\"\"\n",
+    "    \n",
+    "    # Execute AddField\n",
+    "    arcpy.AddField_management(inTable, fieldName1, \"DOUBLE\")\n",
+    "    arcpy.AddField_management(inTable, fieldName2, \"DOUBLE\")\n",
+    "    # Execute CalculateField - weighting\n",
+    "    arcpy.CalculateField_management(inTable, fieldName1, expression1, \"PYTHON_9.3\", codeblock1)\n",
+    "    arcpy.CalculateField_management(inTable, fieldName2, expression1, \"PYTHON_9.3\", codeblock2)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Hos2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inTable = \"Hos2CoverPopCent\"\n",
+    "    fieldName1 = \"PropToPopSlow\"\n",
+    "    fieldName2 = \"PropToPopQuick\"\n",
+    "    expression1 = \"w(!ToBreak!,!SUM_POP!)\"\n",
+    "    codeblock1 = \"\"\"def w (f1,f2):\n",
+    "        if f1 <= 10:\n",
+    "            return f2 * 1\n",
+    "        elif f1 > 10 and f1 <= 20:\n",
+    "            return f2 * 0.80\n",
+    "        elif f1 > 20 and f1 <=30:\n",
+    "            return f2 * 0.55\n",
+    "        elif f1 > 30 and f1 <=60:\n",
+    "            return f2 * 0.15\"\"\"\n",
+    "    codeblock2 = \"\"\"def w(f1,f2):\n",
+    "        if f1 <= 10:\n",
+    "            return f2 * 1\n",
+    "        elif f1 > 10 and f1 <= 20:\n",
+    "            return f2 * 0.60\n",
+    "        elif f1 > 20 and f1 <=30:\n",
+    "            return f2 * 0.25\n",
+    "        elif f1 > 30 and f1 <=60:\n",
+    "            return f2 * 0.05\"\"\"\n",
+    "    \n",
+    "    # Execute AddField\n",
+    "    arcpy.AddField_management(inTable, fieldName1, \"DOUBLE\")\n",
+    "    arcpy.AddField_management(inTable, fieldName2, \"DOUBLE\")\n",
+    "    # Execute CalculateField - weighting\n",
+    "    arcpy.CalculateField_management(inTable, fieldName1, expression1, \"PYTHON_9.3\", codeblock1)\n",
+    "    arcpy.CalculateField_management(inTable, fieldName2, expression1, \"PYTHON_9.3\", codeblock2)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inTable = \"Hos3CoverPopCent\"\n",
+    "    fieldName1 = \"PropToPopSlow\"\n",
+    "    fieldName2 = \"PropToPopQuick\"\n",
+    "    expression1 = \"w(!ToBreak!,!SUM_POP!)\"\n",
+    "    codeblock1 = \"\"\"def w (f1,f2):\n",
+    "        if f1 <= 10:\n",
+    "            return f2 * 1\n",
+    "        elif f1 > 10 and f1 <= 20:\n",
+    "            return f2 * 0.80\n",
+    "        elif f1 > 20 and f1 <=30:\n",
+    "            return f2 * 0.55\n",
+    "        elif f1 > 30 and f1 <=60:\n",
+    "            return f2 * 0.15\"\"\"\n",
+    "    codeblock2 = \"\"\"def w(f1,f2):\n",
+    "        if f1 <= 10:\n",
+    "            return f2 * 1\n",
+    "        elif f1 > 10 and f1 <= 20:\n",
+    "            return f2 * 0.60\n",
+    "        elif f1 > 20 and f1 <=30:\n",
+    "            return f2 * 0.25\n",
+    "        elif f1 > 30 and f1 <=60:\n",
+    "            return f2 * 0.05\"\"\"\n",
+    "    \n",
+    "    # Execute AddField\n",
+    "    arcpy.AddField_management(inTable, fieldName1, \"DOUBLE\")\n",
+    "    arcpy.AddField_management(inTable, fieldName2, \"DOUBLE\")\n",
+    "    # Execute CalculateField - weighting\n",
+    "    arcpy.CalculateField_management(inTable, fieldName1, expression1, \"PYTHON_9.3\", codeblock1)\n",
+    "    arcpy.CalculateField_management(inTable, fieldName2, expression1, \"PYTHON_9.3\", codeblock2)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Dissolve all 4 breaks polygons into one by Faciliy ID"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## First block executes dissolve by Facility ID and sum up weighted population in each breaks\n",
+    "## Second block executes a calculation to get supply - demand ratio: 1 / cover pop"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### PHC"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "import os\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    # Set local variables\n",
+    "    inWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    outWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    inFeatures = os.path.join(inWorkspace,\"PHCCoverPopCent\")\n",
+    "    outFeatures = os.path.join(outWorkspace,\"PHCCoverDissCent\")\n",
+    "    dissolveFields = [\"FacilityID\"]\n",
+    "    statFields = [[\"PropToPopSlow\",\"sum\"],[\"PropToPopQuick\",\"sum\"]]\n",
+    "    \n",
+    "    # Execute Dissolve using FaclityID as Dissolve Fields, summing the weighted PropToPop(Slow & Quick) of 3 time breaks into 1\n",
+    "    arcpy.Dissolve_management(inFeatures, outFeatures, dissolveFields, statFields)\n",
+    "    \n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inTable = \"PHCCoverDissCent\"\n",
+    "    fieldName1 = \"SUM_PropToPopSlow\"\n",
+    "    fieldName2 = \"SUM_PropToPopQuick\"\n",
+    "    expression1 = \"1/!SUM_PropToPopSlow!\"\n",
+    "    expression2 = \"1/!SUM_PropToPopQuick!\"    \n",
+    "    # Execute CalculateField - getting PropToPop deviding 1 by weighted population\n",
+    "    arcpy.CalculateField_management(inTable, fieldName1, expression1, \"PYTHON_9.3\")\n",
+    "    arcpy.CalculateField_management(inTable, fieldName2, expression2, \"PYTHON_9.3\")\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "import os\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    # Set local variables\n",
+    "    inWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    outWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    inFeatures = os.path.join(inWorkspace,\"Hos2CoverPopCent\")\n",
+    "    outFeatures = os.path.join(outWorkspace,\"Hos2CoverDissCent\")\n",
+    "    dissolveFields = [\"FacilityID\"]\n",
+    "    statFields = [[\"PropToPopSlow\",\"sum\"],[\"PropToPopQuick\",\"sum\"]]\n",
+    "    \n",
+    "    # Execute Dissolve using FaclityID as Dissolve Fields, summing the weighted PropToPop(Slow & Quick) of 3 time breaks into 1\n",
+    "    arcpy.Dissolve_management(inFeatures, outFeatures, dissolveFields, statFields)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inTable = \"Hos2CoverDissCent\"\n",
+    "    fieldName1 = \"SUM_PropToPopSlow\"\n",
+    "    fieldName2 = \"SUM_PropToPopQuick\"\n",
+    "    expression1 = \"1/!SUM_PropToPopSlow!\"\n",
+    "    expression2 = \"1/!SUM_PropToPopQuick!\"    \n",
+    "    # Execute CalculateField - getting PropToPop deviding 1 by weighted population\n",
+    "    arcpy.CalculateField_management(inTable, fieldName1, expression1, \"PYTHON_9.3\")\n",
+    "    arcpy.CalculateField_management(inTable, fieldName2, expression2, \"PYTHON_9.3\")\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "import os\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    # Set local variables   \n",
+    "    inWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    outWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    inFeatures = os.path.join(inWorkspace,\"Hos3CoverPopCent\")\n",
+    "    outFeatures = os.path.join(outWorkspace,\"Hos3CoverDissCent\")\n",
+    "    dissolveFields = [\"FacilityID\"]\n",
+    "    statFields = [[\"PropToPopSlow\",\"sum\"],[\"PropToPopQuick\",\"sum\"]]\n",
+    "    \n",
+    "    # Execute Dissolve using FaclityID as Dissolve Fields, summing the weighted PropToPop(Slow & Quick) of 3 time breaks into 1\n",
+    "    arcpy.Dissolve_management(inFeatures, outFeatures, dissolveFields, statFields)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inTable = \"Hos3CoverDissCent\"\n",
+    "    fieldName1 = \"SUM_PropToPopSlow\"\n",
+    "    fieldName2 = \"SUM_PropToPopQuick\"\n",
+    "    expression1 = \"1/!SUM_PropToPopSlow!\"\n",
+    "    expression2 = \"1/!SUM_PropToPopQuick!\"    \n",
+    "    # Execute CalculateField - getting PropToPop deviding 1 by weighted population\n",
+    "    arcpy.CalculateField_management(inTable, fieldName1, expression1, \"PYTHON_9.3\")\n",
+    "    arcpy.CalculateField_management(inTable, fieldName2, expression2, \"PYTHON_9.3\")\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Join fields (PropToPopSlow and PropToPopQuick) back to the healthcare point feature"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### PHC"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "import os\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    \n",
+    "    # Set the local parameters\n",
+    "    inWorkspace1 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\HealthPlaceNew.gdb\"\n",
+    "    inWorkspace2 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    inFeatures = os.path.join(inWorkspace1,\"PHCNaika_Chugoku\")\n",
+    "    joinField1 = \"OBJECTID\"\n",
+    "    joinTable = os.path.join(inWorkspace2,\"PHCCoverDissCent\")\n",
+    "    joinField2 = \"FacilityID\"\n",
+    "    fieldList = [\"SUM_PropToPopSlow\", \"SUM_PropToPopQuick\"] \n",
+    "    outFeatures = os.path.join(inWorkspace2,\"PHCNaika_ChugokuPTPCent\")\n",
+    "    dropFields1 = [\"SUM_PropToPopSlow\", \"SUM_PropToPopQuick\"]\n",
+    "    dropFields2 = [\"P04_001\", \"P04_002\", \"P04_003\", \"P04_004\", \"P04_005\", \"P04_006\", \"P04_007\", \"Naika\"]\n",
+    "    \n",
+    "    # First delete the fields of SUM_PrpToPop fields which were added in the process\n",
+    "    arcpy.DeleteField_management(inFeatures, dropFields1)\n",
+    "    # Join two feature classes by the OBJECTID and FacilityID fields and only carry \n",
+    "    # over the PropToPopSlow and PropToPopQuick fields\n",
+    "    arcpy.JoinField_management(inFeatures, joinField1, joinTable, joinField2, fieldList)\n",
+    "    # Create a new feature in a current workspace = E2FCAStep1Rural.gdb\n",
+    "    arcpy.CopyFeatures_management(inFeatures, outFeatures)\n",
+    "    # Delete unnecessary fields\n",
+    "    arcpy.DeleteField_management(outFeatures, dropFields2)\n",
+    "    \n",
+    "    print(\"Script completed successfully\")\n",
+    "\n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "import os\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    \n",
+    "    # Set the local parameters\n",
+    "    inWorkspace1 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\HealthPlaceNew.gdb\"\n",
+    "    inWorkspace2 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    inFeatures = os.path.join(inWorkspace1,\"Hos2Naika_Chugoku\")\n",
+    "    joinField1 = \"OBJECTID\"\n",
+    "    joinTable = os.path.join(inWorkspace2,\"Hos2CoverDissCent\")\n",
+    "    joinField2 = \"FacilityID\"\n",
+    "    fieldList = [\"SUM_PropToPopSlow\", \"SUM_PropToPopQuick\"] \n",
+    "    outFeatures = os.path.join(inWorkspace2,\"Hos2Naika_ChugokuPTPCent\")\n",
+    "    dropFields1 = [\"SUM_PropToPopSlow\", \"SUM_PropToPopQuick\"]\n",
+    "    dropFields2 = [\"P04_001\", \"P04_002\", \"P04_003\", \"P04_004\", \"P04_005\", \"P04_006\", \"P04_007\", \"Naika\"]\n",
+    "    \n",
+    "    # First delete the fields of SUM_PrpToPop fields which were added in the process\n",
+    "    arcpy.DeleteField_management(inFeatures, dropFields1)\n",
+    "    # Join two feature classes by the OBJECTID and FacilityID fields and only carry \n",
+    "    # over the PropToPopSlow and PropToPopQuick fields\n",
+    "    arcpy.JoinField_management(inFeatures, joinField1, joinTable, joinField2, fieldList)\n",
+    "    # Create a new feature in a current workspace = E2FCAStep1Rural.gdb\n",
+    "    arcpy.CopyFeatures_management(inFeatures, outFeatures)\n",
+    "    # Delete unnecessary fields\n",
+    "    arcpy.DeleteField_management(outFeatures, dropFields2)\n",
+    "    \n",
+    "    print(\"Script completed successfully\")\n",
+    "\n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "import os\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    \n",
+    "    # Set the local parameters\n",
+    "    inWorkspace1 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\HealthPlaceNew.gdb\"\n",
+    "    inWorkspace2 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep1Rural.gdb\"\n",
+    "    inFeatures = os.path.join(inWorkspace1,\"Hos3Naika_Chugoku\")\n",
+    "    joinField1 = \"OBJECTID\"\n",
+    "    joinTable = os.path.join(inWorkspace2,\"Hos3CoverDissCent\")\n",
+    "    joinField2 = \"FacilityID\"\n",
+    "    fieldList = [\"SUM_PropToPopSlow\", \"SUM_PropToPopQuick\"] \n",
+    "    outFeatures = os.path.join(inWorkspace2,\"Hos3Naika_ChugokuPTPCent\")\n",
+    "    dropFields1 = [\"SUM_PropToPopSlow\", \"SUM_PropToPopQuick\"]\n",
+    "    dropFields2 = [\"P04_001\", \"P04_002\", \"P04_003\", \"P04_004\", \"P04_005\", \"P04_006\", \"P04_007\", \"Naika\"]\n",
+    "    \n",
+    "     # First delete the fields of SUM_PrpToPop fields which were added in the process\n",
+    "    arcpy.DeleteField_management(inFeatures, dropFields1)\n",
+    "    # Join two feature classes by the OBJECTID and FacilityID fields and only carry \n",
+    "    # over the PropToPopSlow and PropToPopQuick fields\n",
+    "    arcpy.JoinField_management(inFeatures, joinField1, joinTable, joinField2, fieldList)\n",
+    "    # Create a new feature in a current workspace = E2FCAStep1Rural.gdb\n",
+    "    arcpy.CopyFeatures_management(inFeatures, outFeatures)\n",
+    "    # Delete unnecessary fields\n",
+    "    arcpy.DeleteField_management(outFeatures, dropFields2)\n",
+    "    \n",
+    "    print(\"Script completed successfully\")\n",
+    "\n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Spatial join with healthcare facilities point data"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### PHC"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "### Import system modules\n",
+    "import arcpy\n",
+    "import os\n",
+    "\n",
+    "try:\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inWorkspace1 = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/NetworkServiceRural.gdb\"\n",
+    "    inWorkspace2 = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/E2FCAStep1Rural.gdb\"\n",
+    "    outWorkspace = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/E2FCAStep2Rural.gdb\"\n",
+    "    \n",
+    "    # Want to join Centroid catchment area polygon to Step1 PHC data and calculate\n",
+    "    # the total score that catchment area (10, 20, 30 min) can cover\n",
+    "    targetFeatures = os.path.join(inWorkspace1, \"SAPolygons4\")\n",
+    "    joinFeatures = os.path.join(inWorkspace2, \"PHCNaika_ChugokuPTPCent\")\n",
+    "    \n",
+    "    # Output will be the target features: PHCCover Polygon with a sum of population field \n",
+    "    outfc = os.path.join(outWorkspace, \"CentroidCatchPHCCent\")\n",
+    "    \n",
+    "    # Create a new fieldmappings and add the two input feature classes.\n",
+    "    fieldmappings = arcpy.FieldMappings()\n",
+    "    fieldmappings.addTable(targetFeatures)\n",
+    "    fieldmappings.addTable(joinFeatures)\n",
+    "    \n",
+    "    # First get the POP_H22 fieldmap. POP_H22 is a field in the KIHON_Chugoku2010 feature class.\n",
+    "    # The output will have the PHCCover Polygon with the attributes of the KIHON_Chugoku2010. Setting the\n",
+    "    # field's merge rule to SUM will aggregate the values for all of the KIHON_Chugoku2010 for\n",
+    "    # each break time into an SUM value. The field is also renamed to be more appropriate\n",
+    "    # for the output.\n",
+    "    PropToPopSlowFieldIndex = fieldmappings.findFieldMapIndex(\"SUM_PropToPopSlow\")\n",
+    "    PropToPopQuickFieldIndex = fieldmappings.findFieldMapIndex(\"SUM_PropToPopQuick\")\n",
+    "    fieldmapSlow = fieldmappings.getFieldMap(PropToPopSlowFieldIndex)\n",
+    "    fieldmapQuick = fieldmappings.getFieldMap(PropToPopQuickFieldIndex)\n",
+    "    # Get the output field's properties as a field object\n",
+    "    fieldS = fieldmapSlow.outputField\n",
+    "    fieldQ = fieldmapQuick.outputField\n",
+    "    \n",
+    "    # Rename the field and pass the updated field object back into the field map\n",
+    "    fieldS.name = \"E2FCAPHCSlow\"\n",
+    "    fieldS.aliasName = \"E2FCAPHCSlow\"\n",
+    "    fieldQ.name = \"E2FCAPHCQuick\"\n",
+    "    fieldQ.aliasName = \"E2FCAPHCQuick\"\n",
+    "    fieldmapSlow.outputField = fieldS\n",
+    "    fieldmapQuick.outputField = fieldQ\n",
+    "    \n",
+    "    # Set the merge rule to sum and then replace the old fieldmap in the mappings object\n",
+    "    # with the updated one\n",
+    "    fieldmapSlow.mergeRule = \"sum\"\n",
+    "    fieldmapQuick.mergeRule = \"sum\"\n",
+    "    fieldmappings.replaceFieldMap(PropToPopSlowFieldIndex, fieldmapSlow)\n",
+    "    fieldmappings.replaceFieldMap(PropToPopQuickFieldIndex, fieldmapQuick)\n",
+    "    \n",
+    "    # Delete fields that are no longer applicable, such as city CITY_NAME and CITY_FIPS\n",
+    "    # as only the first value will be used by default\n",
+    "    x = fieldmappings.findFieldMapIndex(\"Name\")\n",
+    "    fieldmappings.removeFieldMap(x)\n",
+    "    \n",
+    "    \n",
+    "    #Run the Spatial Join tool, using the defaults for the join operation and join type\n",
+    "    arcpy.SpatialJoin_analysis(targetFeatures, joinFeatures, outfc, \"JOIN_ONE_TO_ONE\", \"KEEP_ALL\", fieldmappings,\"COMPLETELY_CONTAINS\")\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "### Import system modules\n",
+    "import arcpy\n",
+    "import os\n",
+    "\n",
+    "try:\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inWorkspace1 = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/NetworkServiceRural.gdb\"\n",
+    "    inWorkspace2 = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/E2FCAStep1Rural.gdb\"\n",
+    "    outWorkspace = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/E2FCAStep2Rural.gdb\"\n",
+    "    \n",
+    "    # Want to join Centroid catchment area polygon to Step1 PHC data and calculate\n",
+    "    # the total score that catchment area (10, 20, 30 min) can cover\n",
+    "    targetFeatures = os.path.join(inWorkspace1, \"SAPolygons4\")\n",
+    "    joinFeatures = os.path.join(inWorkspace2, \"Hos2Naika_ChugokuPTPCent\")\n",
+    "    \n",
+    "    # Output will be the target features: PHCCover Polygon with a sum of population field \n",
+    "    outfc = os.path.join(outWorkspace, \"CentroidCatchHos2Cent\")\n",
+    "    \n",
+    "    # Create a new fieldmappings and add the two input feature classes.\n",
+    "    fieldmappings = arcpy.FieldMappings()\n",
+    "    fieldmappings.addTable(targetFeatures)\n",
+    "    fieldmappings.addTable(joinFeatures)\n",
+    "    \n",
+    "    # First get the POP_H22 fieldmap. POP_H22 is a field in the KIHON_Chugoku2010 feature class.\n",
+    "    # The output will have the PHCCover Polygon with the attributes of the KIHON_Chugoku2010. Setting the\n",
+    "    # field's merge rule to SUM will aggregate the values for all of the KIHON_Chugoku2010 for\n",
+    "    # each break time into an SUM value. The field is also renamed to be more appropriate\n",
+    "    # for the output.\n",
+    "    PropToPopSlowFieldIndex = fieldmappings.findFieldMapIndex(\"SUM_PropToPopSlow\")\n",
+    "    PropToPopQuickFieldIndex = fieldmappings.findFieldMapIndex(\"SUM_PropToPopQuick\")\n",
+    "    fieldmapSlow = fieldmappings.getFieldMap(PropToPopSlowFieldIndex)\n",
+    "    fieldmapQuick = fieldmappings.getFieldMap(PropToPopQuickFieldIndex)\n",
+    "    # Get the output field's properties as a field object\n",
+    "    fieldS = fieldmapSlow.outputField\n",
+    "    fieldQ = fieldmapQuick.outputField\n",
+    "    \n",
+    "    # Rename the field and pass the updated field object back into the field map\n",
+    "    fieldS.name = \"E2FCAHos2Slow\"\n",
+    "    fieldS.aliasName = \"E2FCAHos2Slow\"\n",
+    "    fieldQ.name = \"E2FCAHos2Quick\"\n",
+    "    fieldQ.aliasName = \"E2FCAHos2Quick\"\n",
+    "    fieldmapSlow.outputField = fieldS\n",
+    "    fieldmapQuick.outputField = fieldQ\n",
+    "    \n",
+    "    # Set the merge rule to sum and then replace the old fieldmap in the mappings object\n",
+    "    # with the updated one\n",
+    "    fieldmapSlow.mergeRule = \"sum\"\n",
+    "    fieldmapQuick.mergeRule = \"sum\"\n",
+    "    fieldmappings.replaceFieldMap(PropToPopSlowFieldIndex, fieldmapSlow)\n",
+    "    fieldmappings.replaceFieldMap(PropToPopQuickFieldIndex, fieldmapQuick)\n",
+    "    \n",
+    "    # Delete fields that are no longer applicable, such as city CITY_NAME and CITY_FIPS\n",
+    "    # as only the first value will be used by default\n",
+    "    x = fieldmappings.findFieldMapIndex(\"Name\")\n",
+    "    fieldmappings.removeFieldMap(x)\n",
+    "    \n",
+    "    \n",
+    "    #Run the Spatial Join tool, using the defaults for the join operation and join type\n",
+    "    arcpy.SpatialJoin_analysis(targetFeatures, joinFeatures, outfc, \"JOIN_ONE_TO_ONE\", \"KEEP_ALL\", fieldmappings,\"COMPLETELY_CONTAINS\")\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "        \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "# Hos3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "### Import system modules\n",
+    "import arcpy\n",
+    "import os\n",
+    "\n",
+    "try:\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inWorkspace1 = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/NetworkServiceRural.gdb\"\n",
+    "    inWorkspace2 = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/E2FCAStep1Rural.gdb\"\n",
+    "    outWorkspace = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/E2FCAStep2Rural.gdb\"\n",
+    "    \n",
+    "    # Want to join Centroid catchment area polygon to Step1 PHC data and calculate\n",
+    "    # the total score that catchment area (10, 20, 30 min) can cover\n",
+    "    targetFeatures = os.path.join(inWorkspace1, \"SAPolygons4\")\n",
+    "    joinFeatures = os.path.join(inWorkspace2, \"Hos3Naika_ChugokuPTPCent\")\n",
+    "    \n",
+    "    # Output will be the target features: PHCCover Polygon with a sum of population field \n",
+    "    outfc = os.path.join(outWorkspace, \"CentroidCatchHos3Cent\")\n",
+    "    \n",
+    "    # Create a new fieldmappings and add the two input feature classes.\n",
+    "    fieldmappings = arcpy.FieldMappings()\n",
+    "    fieldmappings.addTable(targetFeatures)\n",
+    "    fieldmappings.addTable(joinFeatures)\n",
+    "    \n",
+    "    # First get the POP_H22 fieldmap. POP_H22 is a field in the KIHON_Chugoku2010 feature class.\n",
+    "    # The output will have the PHCCover Polygon with the attributes of the KIHON_Chugoku2010. Setting the\n",
+    "    # field's merge rule to SUM will aggregate the values for all of the KIHON_Chugoku2010 for\n",
+    "    # each break time into an SUM value. The field is also renamed to be more appropriate\n",
+    "    # for the output.\n",
+    "    PropToPopSlowFieldIndex = fieldmappings.findFieldMapIndex(\"SUM_PropToPopSlow\")\n",
+    "    PropToPopQuickFieldIndex = fieldmappings.findFieldMapIndex(\"SUM_PropToPopQuick\")\n",
+    "    fieldmapSlow = fieldmappings.getFieldMap(PropToPopSlowFieldIndex)\n",
+    "    fieldmapQuick = fieldmappings.getFieldMap(PropToPopQuickFieldIndex)\n",
+    "    # Get the output field's properties as a field object\n",
+    "    fieldS = fieldmapSlow.outputField\n",
+    "    fieldQ = fieldmapQuick.outputField\n",
+    "    \n",
+    "    # Rename the field and pass the updated field object back into the field map\n",
+    "    fieldS.name = \"E2FCAHos3Slow\"\n",
+    "    fieldS.aliasName = \"E2FCAHos3Slow\"\n",
+    "    fieldQ.name = \"E2FCAHos3Quick\"\n",
+    "    fieldQ.aliasName = \"E2FCAHos3Quick\"\n",
+    "    fieldmapSlow.outputField = fieldS\n",
+    "    fieldmapQuick.outputField = fieldQ\n",
+    "    \n",
+    "    # Set the merge rule to sum and then replace the old fieldmap in the mappings object\n",
+    "    # with the updated one\n",
+    "    fieldmapSlow.mergeRule = \"sum\"\n",
+    "    fieldmapQuick.mergeRule = \"sum\"\n",
+    "    fieldmappings.replaceFieldMap(PropToPopSlowFieldIndex, fieldmapSlow)\n",
+    "    fieldmappings.replaceFieldMap(PropToPopQuickFieldIndex, fieldmapQuick)\n",
+    "    \n",
+    "    # Delete fields that are no longer applicable, such as city CITY_NAME and CITY_FIPS\n",
+    "    # as only the first value will be used by default\n",
+    "    x = fieldmappings.findFieldMapIndex(\"Name\")\n",
+    "    fieldmappings.removeFieldMap(x)\n",
+    "    \n",
+    "    \n",
+    "    #Run the Spatial Join tool, using the defaults for the join operation and join type\n",
+    "    arcpy.SpatialJoin_analysis(targetFeatures, joinFeatures, outfc, \"JOIN_ONE_TO_ONE\", \"KEEP_ALL\", fieldmappings,\"COMPLETELY_CONTAINS\")\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Weighting scores for all 4 breaks"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### PHC"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inTable = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\\CentroidCatchPHCCent\"\n",
+    "    fieldName1 = \"PHCE2FCASlow\"\n",
+    "    fieldName2 = \"PHCE2FCAQuick\"\n",
+    "    expression1 = \"w(!ToBreak!,!E2FCAPHCSlow!)\"\n",
+    "    expression2 = \"w(!ToBreak!,!E2FCAPHCQuick!)\"\n",
+    "    codeblock1 = \"\"\"def w (f1,f2):\n",
+    "        if f1 <= 10:\n",
+    "            return f2 * 1\n",
+    "        elif f1 > 10 and f1 <= 20:\n",
+    "            return f2 * 0.80\n",
+    "        elif f1 > 20 and f1 <=30:\n",
+    "            return f2 * 0.55\n",
+    "        elif f1 > 30 and f1 <=60:\n",
+    "            return f2 * 0.15\"\"\"\n",
+    "    codeblock2 = \"\"\"def w(f1,f2):\n",
+    "        if f1 <= 10:\n",
+    "            return f2 * 1\n",
+    "        elif f1 > 10 and f1 <= 20:\n",
+    "            return f2 * 0.60\n",
+    "        elif f1 > 20 and f1 <=30:\n",
+    "            return f2 * 0.25\n",
+    "        elif f1 > 30 and f1 <=60:\n",
+    "            return f2 * 0.05\"\"\"   \n",
+    "    # Execute AddField\n",
+    "    arcpy.AddField_management(inTable, fieldName1, \"DOUBLE\")\n",
+    "    arcpy.AddField_management(inTable, fieldName2, \"DOUBLE\")\n",
+    "    # Execute CalculateField - weighting\n",
+    "    arcpy.CalculateField_management(inTable, fieldName1, expression1, \"PYTHON_9.3\", codeblock1)\n",
+    "    arcpy.CalculateField_management(inTable, fieldName2, expression2, \"PYTHON_9.3\", codeblock2)\n",
+    "    \n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inTable = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\\CentroidCatchHos2Cent\"\n",
+    "    fieldName1 = \"Hos2E2FCASlow\"\n",
+    "    fieldName2 = \"Hos2E2FCAQuick\"\n",
+    "    expression1 = \"w(!ToBreak!,!E2FCAHos2Slow!)\"\n",
+    "    expression2 = \"w(!ToBreak!,!E2FCAHos2Quick!)\"\n",
+    "    codeblock1 = \"\"\"def w (f1,f2):\n",
+    "        if f1 <= 10:\n",
+    "            return f2 * 1\n",
+    "        elif f1 > 10 and f1 <= 20:\n",
+    "            return f2 * 0.80\n",
+    "        elif f1 > 20 and f1 <=30:\n",
+    "            return f2 * 0.55\n",
+    "        elif f1 > 30 and f1 <=60:\n",
+    "            return f2 * 0.15\"\"\"\n",
+    "    codeblock2 = \"\"\"def w(f1,f2):\n",
+    "        if f1 <= 10:\n",
+    "            return f2 * 1\n",
+    "        elif f1 > 10 and f1 <= 20:\n",
+    "            return f2 * 0.60\n",
+    "        elif f1 > 20 and f1 <=30:\n",
+    "            return f2 * 0.25\n",
+    "        elif f1 > 30 and f1 <=60:\n",
+    "            return f2 * 0.05\"\"\"   \n",
+    "    # Execute AddField\n",
+    "    arcpy.AddField_management(inTable, fieldName1, \"DOUBLE\")\n",
+    "    arcpy.AddField_management(inTable, fieldName2, \"DOUBLE\")\n",
+    "    # Execute CalculateField - weighting\n",
+    "    arcpy.CalculateField_management(inTable, fieldName1, expression1, \"PYTHON_9.3\", codeblock1)\n",
+    "    arcpy.CalculateField_management(inTable, fieldName2, expression2, \"PYTHON_9.3\", codeblock2)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "\n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inTable = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\\CentroidCatchHos3Cent\"\n",
+    "    fieldName1 = \"Hos3E2FCASlow\"\n",
+    "    fieldName2 = \"Hos3E2FCAQuick\"\n",
+    "    expression1 = \"w(!ToBreak!,!E2FCAHos3Slow!)\"\n",
+    "    expression2 = \"w(!ToBreak!,!E2FCAHos3Quick!)\"\n",
+    "    codeblock1 = \"\"\"def w (f1,f2):\n",
+    "        if f1 <= 10:\n",
+    "            return f2 * 1\n",
+    "        elif f1 > 10 and f1 <= 20:\n",
+    "            return f2 * 0.80\n",
+    "        elif f1 > 20 and f1 <=30:\n",
+    "            return f2 * 0.55\n",
+    "        elif f1 > 30 and f1 <=60:\n",
+    "            return f2 * 0.15\"\"\"\n",
+    "    codeblock2 = \"\"\"def w(f1,f2):\n",
+    "        if f1 <= 10:\n",
+    "            return f2 * 1\n",
+    "        elif f1 > 10 and f1 <= 20:\n",
+    "            return f2 * 0.60\n",
+    "        elif f1 > 20 and f1 <=30:\n",
+    "            return f2 * 0.25\n",
+    "        elif f1 > 30 and f1 <=60:\n",
+    "            return f2 * 0.05\"\"\"   \n",
+    "    # Execute AddField\n",
+    "    arcpy.AddField_management(inTable, fieldName1, \"DOUBLE\")\n",
+    "    arcpy.AddField_management(inTable, fieldName2, \"DOUBLE\")\n",
+    "    # Execute CalculateField - weighting\n",
+    "    arcpy.CalculateField_management(inTable, fieldName1, expression1, \"PYTHON_9.3\", codeblock1)\n",
+    "    arcpy.CalculateField_management(inTable, fieldName2, expression2, \"PYTHON_9.3\", codeblock2)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "\n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "# Dissolve by Facility ID and get E2FCA score "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### PHC"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "import os\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    # Set local variables\n",
+    "    inWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    outWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    inFeatures = os.path.join(inWorkspace,\"CentroidCatchPHCCent\")\n",
+    "    outFeatures = os.path.join(outWorkspace,\"CentroidCatchPHC_DissCent\")\n",
+    "    dissolveFields = [\"FacilityID\"]\n",
+    "    statFields = [[\"PHCE2FCASlow\",\"sum\"],[\"PHCE2FCAQuick\",\"sum\"]]\n",
+    "    \n",
+    "    # Execute Dissolve using FaclityID as Dissolve Fields, summing the weighted PropToPop(Slow & Quick) of 3 time breaks into 1\n",
+    "    arcpy.Dissolve_management(inFeatures, outFeatures, dissolveFields, statFields)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "import os\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    # Set local variables\n",
+    "    inWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    outWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    inFeatures = os.path.join(inWorkspace,\"CentroidCatchHos2Cent\")\n",
+    "    outFeatures = os.path.join(outWorkspace,\"CentroidCatchHos2_DissCent\")\n",
+    "    dissolveFields = [\"FacilityID\"]\n",
+    "    statFields = [[\"Hos2E2FCASlow\",\"sum\"],[\"Hos2E2FCAQuick\",\"sum\"]]\n",
+    "    \n",
+    "    # Execute Dissolve using FaclityID as Dissolve Fields, summing the weighted PropToPop(Slow & Quick) of 3 time breaks into 1\n",
+    "    arcpy.Dissolve_management(inFeatures, outFeatures, dissolveFields, statFields)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "import os\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    # Set local variables\n",
+    "    inWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    outWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    inFeatures = os.path.join(inWorkspace,\"CentroidCatchHos3Cent\")\n",
+    "    outFeatures = os.path.join(outWorkspace,\"CentroidCatchHos3_DissCent\")\n",
+    "    dissolveFields = [\"FacilityID\"]\n",
+    "    statFields = [[\"Hos3E2FCASlow\",\"sum\"],[\"Hos3E2FCAQuick\",\"sum\"]]\n",
+    "    \n",
+    "    # Execute Dissolve using FaclityID as Dissolve Fields, summing the weighted PropToPop(Slow & Quick) of 3 time breaks into 1\n",
+    "    arcpy.Dissolve_management(inFeatures, outFeatures, dissolveFields, statFields)\n",
+    "    \n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Join all three tables with Census polygon layer"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### PHC"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "import os\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    \n",
+    "    # Set the local parameters\n",
+    "    inWorkspace1 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\HealthPlaceNew.gdb\"\n",
+    "    inWorkspace2 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    inFeatures = os.path.join(inWorkspace1,\"Census2015Final\")\n",
+    "    joinField1 = \"OBJECTID\"\n",
+    "    joinTable = os.path.join(inWorkspace2,\"CentroidCatchPHC_DissCent\")\n",
+    "    joinField2 = \"FacilityID\"\n",
+    "    fieldList = [\"SUM_PHCE2FCASlow\", \"SUM_PHCE2FCAQuick\"] \n",
+    "    outFeatures = os.path.join(inWorkspace2,\"CensusE2FCAPHCCent\")\n",
+    "    \n",
+    "    # Join two feature classes by the zonecode field and only carry \n",
+    "    # over the PropToPopSlow and PropToPopQuick fields\n",
+    "    arcpy.JoinField_management(inFeatures, joinField1, joinTable, joinField2, fieldList)\n",
+    "    arcpy.CopyFeatures_management(inFeatures, outFeatures)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "import os\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    \n",
+    "    # Set the local parameters\n",
+    "    inWorkspace1 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\HealthPlaceNew.gdb\"\n",
+    "    inWorkspace2 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    inFeatures = os.path.join(inWorkspace2,\"CensusE2FCAPHCCent\")\n",
+    "    joinField1 = \"OBJECTID\"\n",
+    "    joinTable = os.path.join(inWorkspace2,\"CentroidCatchHos2_DissCent\")\n",
+    "    joinField2 = \"FacilityID\"\n",
+    "    fieldList = [\"SUM_Hos2E2FCASlow\", \"SUM_Hos2E2FCAQuick\"] \n",
+    "    outFeatures = os.path.join(inWorkspace2,\"CensusE2FCAPHCHos2Cent\")\n",
+    "    \n",
+    "    # Join two feature classes by the zonecode field and only carry \n",
+    "    # over the PropToPopSlow and PropToPopQuick fields\n",
+    "    arcpy.JoinField_management(inFeatures, joinField1, joinTable, joinField2, fieldList)\n",
+    "    arcpy.CopyFeatures_management(inFeatures, outFeatures)\n",
+    " \n",
+    "    print(\"Script completed successfully\")\n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "collapsed": true
+   },
+   "source": [
+    "### Hos3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "import os\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    \n",
+    "    # Set the local parameters\n",
+    "    inWorkspace1 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\HealthPlaceNew.gdb\"\n",
+    "    inWorkspace2 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    inFeatures = os.path.join(inWorkspace2,\"CensusE2FCAPHCHos2Cent\")\n",
+    "    joinField1 = \"OBJECTID\"\n",
+    "    joinTable = os.path.join(inWorkspace2,\"CentroidCatchHos3_DissCent\")\n",
+    "    joinField2 = \"FacilityID\"\n",
+    "    fieldList = [\"SUM_Hos3E2FCASlow\", \"SUM_Hos3E2FCAQuick\"] \n",
+    "    outFeatures = os.path.join(inWorkspace2,\"CensusE2FCAPHCHos2Hos3Cent\")\n",
+    "\n",
+    "    # Join two feature classes by the zonecode field and only carry \n",
+    "    # over the PropToPopSlow and PropToPopQuick fields\n",
+    "    arcpy.JoinField_management(inFeatures, joinField1, joinTable, joinField2, fieldList)\n",
+    "    arcpy.CopyFeatures_management(inFeatures, outFeatures)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Finally, export the feature and create a final feature - CensusE2FCAFinal"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Additional data - Bus stop density"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Spatial join with bus stop point feature "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "### Import system modules\n",
+    "import arcpy\n",
+    "import os\n",
+    "\n",
+    "try:\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inWorkspace1 = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/E2FCAStep2Rural.gdb\"\n",
+    "    inWorkspace2 = r\"C:\\Users\\kenta\\Documents\\GISData_Import\\Esri詳細2015中国四国\\MS_SCALE.gdb\"\n",
+    "    outWorkspace = r\"C:/Users/kenta/Documents/ArcGIS/Projects/HealthPlaceNew/E2FCAStep2Rural.gdb\"\n",
+    "      \n",
+    "    # Want to join PHCCover polygon to KIHON_Chugoku2010 and calculate\n",
+    "    # the total number of population that service area (10, 20, 30 min) can cover\n",
+    "    targetFeatures = os.path.join(inWorkspace1, \"CensusE2FCAPHCHos2Hos3Cent\")\n",
+    "    joinFeatures = os.path.join(inWorkspace2, \"POI_BUSSTOP\")\n",
+    "    \n",
+    "    # Output will be the target features: PHCCover Polygon with a sum of population field \n",
+    "    outfc = os.path.join(outWorkspace, \"CensusE2FCAFinalCent\")\n",
+    "    \n",
+    "    # Create a new fieldmappings and add the two input feature classes.\n",
+    "    fieldmappings = arcpy.FieldMappings()\n",
+    "    fieldmappings.addTable(targetFeatures)\n",
+    "    fieldmappings.addTable(joinFeatures)\n",
+    "        \n",
+    "    # Delete fields that are no longer applicable, such as city CITY_NAME and CITY_FIPS\n",
+    "    # as only the first value will be used by default\n",
+    "    x = fieldmappings.findFieldMapIndex(\"BSN\")\n",
+    "    fieldmappings.removeFieldMap(x)\n",
+    "    \n",
+    "    #Run the Spatial Join tool, using the defaults for the join operation and join type\n",
+    "    arcpy.SpatialJoin_analysis(targetFeatures, joinFeatures, outfc, \"JOIN_ONE_TO_ONE\", \"KEEP_ALL\", fieldmappings,\"COMPLETELY_CONTAINS\")\n",
+    " \n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Calculate bus stop density"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "### Import system modules\n",
+    "import arcpy\n",
+    "import os\n",
+    "\n",
+    "try:\n",
+    "    \n",
+    "    # Create a new field of Bus stop count and Bus stop density\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    inTable = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\\CensusE2FCAFinalCent\"\n",
+    "    fieldName1 = \"BusCount\"\n",
+    "    fieldName2 = \"BusDen\"\n",
+    "    expression1 = \"!Join_Count!\"\n",
+    "    expression2 = \"!BusCount!/!AreaRes!\"\n",
+    "    dropFields = \"JOIN_COUNT\"\n",
+    "    # Execute AddField\n",
+    "    arcpy.AddField_management(inTable, fieldName1, \"DOUBLE\")\n",
+    "    arcpy.AddField_management(inTable, fieldName2, \"DOUBLE\")\n",
+    "    # Execute CalculateField - weighting\n",
+    "    arcpy.CalculateField_management(inTable, fieldName1, expression1, \"PYTHON_9.3\")\n",
+    "    arcpy.CalculateField_management(inTable, fieldName2, expression2, \"PYTHON_9.3\")\n",
+    "    # Delete JOIN_COUNT field\n",
+    "    arcpy.DeleteField_management(inTable, dropFields)\n",
+    "    \n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Missing imputation of E2FCA score"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Several units are missing E2FCA score due to the network construction aka systematic issue\n",
+    "### Imputing a mean score of neighboring units (n=12)\n",
+    "### Imputing 0 for the units which are clearly out of catchments"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "############ Need to impute missing value with different PC manually############"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Manually finished missing imputation by different PC\n",
+    "### Now make a final dataset\n",
+    "### 1. Copy imputed data to a project folder\n",
+    "### 2. Join imputed data's fields to CensusE2FCAFinal data and create a new feature \"CensusE2FCAFinalMI\"\n",
+    "### 3. Delete duplicated E2FCA score fields"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    \n",
+    "    env.workspace = r\"G:\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    ### Set a path for created data will ve stored\n",
+    "    outpath = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    # Export data to new path\n",
+    "    arcpy.FeatureClassToFeatureClass_conversion('CensusE2FCAMICent',outpath,\"CensusE2FCAMICent\")\n",
+    "    \n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))    "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "import os\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    \n",
+    "    # Set the local parameters\n",
+    "    inWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    outWorkspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    inFeatures = os.path.join(inWorkspace,\"CensusE2FCAFinalCent\")\n",
+    "    joinField = \"OBJECTID\"\n",
+    "    joinTable = os.path.join(inWorkspace,\"CensusE2FCAMICent\")\n",
+    "    fieldList = [\"SUM_PHCE2FCASLOW\", \"SUM_PHCE2FCAQUICK\", \"SUM_HOS2E2FCASLOW\", \"SUM_HOS2E2FCAQUICK\", \"SUM_HOS3E2FCASLOW\", \"SUM_HOS3E2FCAQUICK\"] \n",
+    "    outFeatures = os.path.join(outWorkspace,\"CensusE2FCAFinalMICent\")\n",
+    "    \n",
+    "    # Join two feature classes by the zonecode field and only carry \n",
+    "    # over the PropToPopSlow and PropToPopQuick fields\n",
+    "    arcpy.JoinField_management(inFeatures, joinField, joinTable, joinField, fieldList)\n",
+    "    arcpy.CopyFeatures_management(inFeatures, outFeatures)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['OBJECTID', 'Shape', 'TARGET_FID', 'KEN_NAME', 'SHICHO_NAME', 'SHI_NAME', 'KU_NAME', 'GUN_NAME', 'CHOSON_NAME', 'OAZA_NAME', 'KOAZA_NAME', 'SUM_AREA', 'TOTPOP_H27', 'AreaRes', 'PopDen', 'SUM_PHCE2FCASlow', 'SUM_PHCE2FCAQuick', 'SUM_Hos2E2FCASlow', 'SUM_Hos2E2FCAQuick', 'SUM_Hos3E2FCASlow', 'SUM_Hos3E2FCAQuick', 'BusCount', 'BusDen', 'SUM_PHCE2FCASLOW_1', 'SUM_PHCE2FCAQUICK_1', 'SUM_HOS2E2FCASLOW_1', 'SUM_HOS2E2FCAQUICK_1', 'SUM_HOS3E2FCASLOW_1', 'SUM_HOS3E2FCAQUICK_1', 'Shape_Length', 'Shape_Area']\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    # list all field name\n",
+    "    field_names = [f.name for f in arcpy.ListFields(\"CensusE2FCAFinalMICent\")]\n",
+    "    print(field_names)\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:    \n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    # Choose the fields want to be deleted\n",
+    "    \n",
+    "    delfield = ['SUM_PHCE2FCASlow', 'SUM_PHCE2FCAQuick', 'SUM_Hos2E2FCASlow', 'SUM_Hos2E2FCAQuick', 'SUM_Hos3E2FCASlow', 'SUM_Hos3E2FCAQuick']   # Delete fields\n",
+    "    arcpy.DeleteField_management('CensusE2FCAFinalMICent',delfield)\n",
+    "    \n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Found the area which has innappropriate population density\n",
+    "### Replace manually - if OAZA_AZA = \"津和野町富田\": return 498.34528"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inTable = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\\CensusE2FCAFinalMICent\"\n",
+    "    fieldName1 = \"PopDen\"\n",
+    "    expression1 = \"w(!PopDen!)\"\n",
+    "    codeblock1 = \"\"\"def w (f1):\n",
+    "        if f1 > 50000:\n",
+    "            return 498.34528\n",
+    "        else:\n",
+    "            return f1\"\"\"\n",
+    "    # Execute CalculateField - imputing 0 where PHC score is not equal to NULL\n",
+    "    arcpy.CalculateField_management(inTable, fieldName1, expression1, \"PYTHON_9.3\", codeblock1)\n",
+    "\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "\n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Spatial Join with geocoded Kosha2015 data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "### Import system modules\n",
+    "import arcpy\n",
+    "import os\n",
+    "\n",
+    "try:\n",
+    "    \n",
+    "    # Set local variables\n",
+    "    inWorkspace1 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCA.gdb\"\n",
+    "    inWorkspace2 = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\E2FCAStep2Rural.gdb\"\n",
+    "    outWorkdspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\HealthPlaceNew.gdb\"\n",
+    "    targetFeatures = os.path.join(inWorkspace1, \"dfnew6Gecoded\")\n",
+    "    joinFeatures = os.path.join(inWorkspace2, \"CensusE2FCAFinalMICent\")\n",
+    "    \n",
+    "    # Output will be the target features: PHCCover Polygon with a sum of population field \n",
+    "    outfc = os.path.join(outWorkdspace, \"dfnew6E2CAFinalCent\")\n",
+    "    \n",
+    "    # Create a new fieldmappings and add the two input feature classes.\n",
+    "    fieldmappings = arcpy.FieldMappings()\n",
+    "    fieldmappings.addTable(targetFeatures)\n",
+    "    fieldmappings.addTable(joinFeatures)\n",
+    "       \n",
+    "    # Delete fields that are no longer applicable, such as city CITY_NAME and CITY_FIPS\n",
+    "    # as only the first value will be used by default\n",
+    "    x = fieldmappings.findFieldMapIndex(\"Status\")\n",
+    "    fieldmappings.removeFieldMap(x)\n",
+    "    y = fieldmappings.findFieldMapIndex(\"Score\")\n",
+    "    fieldmappings.removeFieldMap(y)\n",
+    "    z = fieldmappings.findFieldMapIndex(\"Match_type\")\n",
+    "    fieldmappings.removeFieldMap(z)\n",
+    "    b = fieldmappings.findFieldMapIndex(\"Year\")\n",
+    "    fieldmappings.removeFieldMap(b)\n",
+    "    c = fieldmappings.findFieldMapIndex(\"Pref\")\n",
+    "    fieldmappings.removeFieldMap(c)\n",
+    "    d = fieldmappings.findFieldMapIndex(\"Gun\")\n",
+    "    fieldmappings.removeFieldMap(d)\n",
+    "    e = fieldmappings.findFieldMapIndex(\"City\")\n",
+    "    fieldmappings.removeFieldMap(e)\n",
+    "    f = fieldmappings.findFieldMapIndex(\"Ku\")\n",
+    "    fieldmappings.removeFieldMap(f)\n",
+    "    h = fieldmappings.findFieldMapIndex(\"Match_code\")\n",
+    "    fieldmappings.removeFieldMap(h)\n",
+    "    i = fieldmappings.findFieldMapIndex(\"Addr_type\")\n",
+    "    fieldmappings.removeFieldMap(i)\n",
+    "    j = fieldmappings.findFieldMapIndex(\"In_Single_Line_Input\")\n",
+    "    fieldmappings.removeFieldMap(j)\n",
+    "    k = fieldmappings.findFieldMapIndex(\"TARGET_FID\")\n",
+    "    fieldmappings.removeFieldMap(k)\n",
+    "    \n",
+    "    #Run the Spatial Join tool, using the defaults for the join operation and join type\n",
+    "    arcpy.SpatialJoin_analysis(targetFeatures, joinFeatures, outfc, \"JOIN_ONE_TO_ONE\", \"KEEP_ALL\", fieldmappings,\"COMPLETELY_WITHIN\")\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Export data as csv or xls format"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### First, create a gdb table from point feature"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Import system modules\n",
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\HealthPlaceNew.gdb\"\n",
+    "    # Set local variables\n",
+    "    inTable = \"dfnew6E2CAFinalCent\"\n",
+    "    outLocation = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\HealthPlaceNew.gdb\"\n",
+    "    outTable = \"dfnew6E2FCAFinalCentTable\"\n",
+    "    \n",
+    "    # Execute TableToTable\n",
+    "    arcpy.TableToTable_conversion(inTable, outLocation, outTable)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "### Now export the table to xls format file"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Script completed successfully\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Import system modules\n",
+    "import arcpy\n",
+    "from arcpy import env\n",
+    "\n",
+    "try:\n",
+    "    # Set environment settings\n",
+    "    env.workspace = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\HealthPlaceNew.gdb\"\n",
+    "    # Set local variables\n",
+    "    inTable = \"dfnew6E2FCAFinalCentTable\"\n",
+    "    outLocation = r\"C:\\Users\\kenta\\Documents\\ArcGIS\\Projects\\HealthPlaceNew\\HealthPlaceNew.gdb\"\n",
+    "    out_xls = r\"G:\\dfnew6E2FCAFinalCent.xls\"\n",
+    "    \n",
+    "    arcpy.TableToExcel_conversion(inTable, out_xls)\n",
+    "\n",
+    "    print(\"Script completed successfully\")\n",
+    "    \n",
+    "except Exception as e:\n",
+    "    # If an error occurred, print line number and error message\n",
+    "    import traceback, sys\n",
+    "    tb = sys.exc_info()[2]\n",
+    "    print(\"An error occurred on line %i\" % tb.tb_lineno)\n",
+    "    print(str(e))"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.5.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
